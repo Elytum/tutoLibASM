@@ -12,8 +12,7 @@ Un peu de documentation utile:
 	Liste des instructions: http://faydoc.tripod.com/cpu/index_b.htm
 
 Alors, l'asm c'est quoi ?
-En gros le C est convertis en assembleur pour être ensuite convertis en binaire puis exécuté par le processeur.
-Nous allons donc descendre d'une couche et quitter le C pour passer à l'asm.
+En gros le C est convertis en assembleur pour être ensuite convertis en binaire puis exécuté par le processeur. Nous allons donc descendre d'une couche et quitter le C pour passer à l'asm.
 
 Prérequis:
 	Installer "nasm" à l'aide de brew.
@@ -51,11 +50,7 @@ ret: http://faydoc.tripod.com/cpu/ret.htm
 
 je: http://faydoc.tripod.com/cpu/je.htm
 
-mov, cmp, ret sont implicits dans dans le résumé ci-dessus, mais pourquoi un je ?
-Parce qu'en vrai, une "fonction" n'existe pas, c'est un block de code binaire (et donc ici aussi en assembleur)
-avec ce qu'on appel un label, et le je permet de sauter au debut d'un label et de revenir à l'instruction suivante
-une fois l'appel à la "fonction" fait. Heureusement, en assembleur, il est aussi possible de créer des "fonctions",
-c'est ce qu'on appel un "label".
+mov, cmp, ret sont implicits dans dans le résumé ci-dessus, mais pourquoi un je ? Parce qu'en vrai, une "fonction" n'existe pas, c'est un block de code binaire (et donc ici aussi en assembleur) avec ce qu'on appel un label, et le je permet de sauter au debut d'un label et de revenir à l'instruction suivante une fois l'appel à la "fonction" fait. Heureusement, en assembleur, il est aussi possible de créer des "fonctions", c'est ce qu'on appel un "label".
 
 Résumons donc en pseudo code :
 
@@ -65,12 +60,10 @@ ft_is_A:
 	ret 1
 
 Mais pourquoi le jump ?
-Et comment return une value alors que ret ne prend pas d'argument ? C'est simple, il existe un registre, rax,
-qui a pour but de contenir la valeur de retour des fonctions, c'est une norme, on peut utiliser n'importe quel
-registre, mais dans ce cas, comment savoir dans lequel aller chercher le retour ? D'où cette convention.
+Et comment return une value alors que ret ne prend pas d'argument ? C'est simple, il existe un registre, rax, qui a pour but de contenir la valeur de retour des fonctions, c'est une norme, on peut utiliser n'importe quel registre, mais dans ce cas, comment savoir dans lequel aller chercher le retour ? D'où cette convention.
 
 On mov donc la valeur qu'on veut return dans rax avant de ret, et le ret stoppera la fonction.
-on remplace donc:
+Nous remplace donc:
 
 ret 0
 			en
@@ -82,8 +75,7 @@ ret 1
 mov rax, 1
 ret
 
-Ensuite, un deuxième problème, le cmp ne permet que de modifier un flag qui peut être utilisé dans un jump,
-alors comment exécuter deux instructions avec un jump ? Avec un label !
+Ensuite, un deuxième problème, le cmp ne permet que de modifier un flag qui peut être utilisé dans un jump, alors comment exécuter deux instructions avec un jump ? Avec un label !
 
 ft_is_A:
 	cmp <FIRST_ARGUMENT> 'A'
@@ -101,9 +93,8 @@ ft_is_A:
 	ret
 
 Il ne manque plus qu'à remplacer notre <FIRST_ARGUMENT> par le bon registre.
-Comme on peut le voir dans "http://warppipe.net/blog/?page_id=349",
-rdi est le registre correspondant au premier argument
-On veut un char, on ne prend donc que les 8 derniers bits, ce qui correspond à sil
+Comme on peut le voir dans "http://warppipe.net/blog/?page_id=349", rdi est le registre correspondant au premier argument
+On veut un char, on ne prend donc que les 8 derniers bits, ce qui correspond à sil.
 Le code final donne donc:
 
 section .text
